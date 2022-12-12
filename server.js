@@ -13,7 +13,7 @@ function init() {
     loadMainPrompts()
 };
 
-function loadMainPrompts() {
+function loadMainPrompts() { 
     prompt([
         {
         type: 'list',
@@ -36,7 +36,7 @@ function loadMainPrompts() {
    
         }
         
-    ]).then(res => {
+    ]).then(res => { console.log('Hi')
         let choice = res.choice
         switch (choice) {
             case 'VIEW_EMPLOYEES':
@@ -50,7 +50,7 @@ function loadMainPrompts() {
     })
 };
 
-function viewEmployees() {
+function viewEmployees() { console.log('Hi')
     db.findAllEmployees()
     .then(([rows]) => {
         let employee_db = rows;
