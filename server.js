@@ -14,6 +14,7 @@ function init() {
 };
 
 function loadMainPrompts() { 
+    console.log('hey')
     prompt([
         {
         type: 'list',
@@ -25,8 +26,8 @@ function loadMainPrompts() {
                 value: 'VIEW_EMPLOYEES'
             },
             {
-                name: 'pizza',
-                value: 'PIZZA'
+                name: 'viewAllEmployeesByDepartment',
+                value: 'VIEW_ALL_EMPLOYEES_BY_DEPARTMENT'
             },
             {
                 name: 'quit',
@@ -36,7 +37,7 @@ function loadMainPrompts() {
    
         }
         
-    ]).then(res => { console.log('Hi')
+    ]).then((res) => { console.log('Hi')
         let choice = res.choice
         switch (choice) {
             case 'VIEW_EMPLOYEES':
@@ -44,6 +45,9 @@ function loadMainPrompts() {
                 break;
             case 'pizza':
                 console.log('pizza')
+                break;
+            case 'more pizza':
+                console.log('amore pizza')
                 break;
              default: quit()
         }
