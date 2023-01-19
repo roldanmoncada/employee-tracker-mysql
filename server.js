@@ -4,6 +4,7 @@ const logo = require('asciiart-logo');
 
 
 const db = require('./db');
+const { findAllEmployeesByDepartment } = require("./db");
 
 init()
 
@@ -30,6 +31,10 @@ function loadMainPrompts() {
                 value: 'VIEW_ALL_EMPLOYEES_BY_DEPARTMENT'
             },
             {
+                name: 'viewAllEmployeesByManager',
+                value: 'VIEW_ALL_EMPLOYEES_BY_MANAGER'
+            },
+            {
                 name: 'quit',
                 value: 'QUIT'
             }
@@ -43,8 +48,8 @@ function loadMainPrompts() {
             case 'VIEW_EMPLOYEES':
                 viewEmployees()
                 break;
-            case 'pizza':
-                console.log('pizza')
+            case 'VIEW_ALL_EMPLOYEES_BY_DEPARTMENT':
+                viewAllEmployeesByDepartment()
                 break;
             case 'more pizza':
                 console.log('amore pizza')
@@ -65,6 +70,29 @@ function viewEmployees() { console.log('Hi')
         loadMainPrompts();
     })
 };
+
+function viewAllEmployeesByDepartment() {
+    db.findAllEmployeesByDepartment()
+    .then(([rows]) => {
+        let departments = rows;
+        const departmentChoices = departments.map(({id, name}) => ({
+            name: name,
+            value: id
+        }));
+        prompt([
+            {
+                type: 'list',
+                name: 'departmentID',
+                message: 'Which department would you like to see?',
+                choice: departmentChoices
+            }
+        ]).then(res => db.findAllEmployeesByDepartment(res.departmentID))
+        .then(([rows]) => {
+            let employees = rows
+            console.table(employees)
+        }).then(() => loadMainPrompts())
+    })
+}
 
 //function viewDepartment() {
 
