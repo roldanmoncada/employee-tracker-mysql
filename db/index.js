@@ -11,10 +11,10 @@ class DB {
     
     }
 
-    findAllEmployeesByDepartment(departmentID) {
+    findAllEmployeesByDepartment(departmentId) {
         return this.connection.promise().query(
-            'SELECT employee.id, employee.first_name, employee.last_name, role.title FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department department ON role.department_id = department.id WHERE department.id = ?;',
-            departmentID
+            'SELECT employee.id, employee.first_name, employee.last_name, role.title FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id = ?;',
+            departmentId
         );
     }
 
@@ -35,6 +35,12 @@ class DB {
     findAllRoles() {
         return this.connection.promise().query(
             'SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department ON role.department_id = department.id;'
+        )
+    }
+    
+    findAllDepartments() {
+        return this.connection.promise().query(
+            'SELECT department.id, department.name FROM department'
         )
     }
 
