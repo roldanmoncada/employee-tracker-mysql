@@ -93,9 +93,10 @@ function viewEmployees() { console.log('Hi')
 };
 
 function viewAllEmployeesByDepartment() {
-    db.findAllEmployeesByDepartment()
+    db.findAllDepartments()
     .then(([rows]) => {
         let department = rows;
+        console.log(department)
         const departmentChoices = department.map(({id, name}) => ({
             name: name,
             value: id
@@ -105,9 +106,9 @@ function viewAllEmployeesByDepartment() {
                 type: 'list',
                 name: 'departmentID',
                 message: 'Which department would you like to see?',
-                choice: departmentChoices
+                choices: departmentChoices
             }
-        ]).then(res => db.findAllEmployeesByDepartment(res.departmentId))
+        ]).then(res => db.findAllEmployeesByDepartment(res.departmentID))
         .then(([rows]) => {
             let employees = rows
             console.table(employees)
