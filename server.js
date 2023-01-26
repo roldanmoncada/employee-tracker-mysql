@@ -141,7 +141,7 @@ function viewRoles() {
 }
 
 function addRole() {
-    db.createRole()
+    db.findAllDepartments()
     .then(([rows]) => {
         let department = rows;
         const departmentChoices = department.map(({id, name}) => ({
@@ -167,8 +167,7 @@ function addRole() {
             db.createRole(role)
             .then(() => {
                 console.log(`Added ${role.title} into the database!`)
-                .then(() => loadMainPrompts())
-            })
+            }).then(() => loadMainPrompts())
         })
     })
 }
