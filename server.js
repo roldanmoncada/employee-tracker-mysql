@@ -43,8 +43,16 @@ function loadMainPrompts() {
                 value: 'VIEW_ROLES'
             },
             {
-                name: 'createRole',
+                name: 'Create Role',
                 value: 'CREATE_ROLE'
+            },
+            {
+                name: 'Create Employee',
+                value: 'CREATE_EMPLOYEE'
+            },
+            {
+                name: 'Delete Employee',
+                value: 'DELETE_EMPLOYEE'
             },
             {
                 name: 'quit',
@@ -74,6 +82,12 @@ function loadMainPrompts() {
                 break;
             case 'CREATE_ROLE':
                 addRole()
+                break;
+            case 'CREATE_EMPLOYEE':
+                generateEmployee()
+                break;
+            case 'DELETE_EMPLOYEE':
+                deleteEmployee()
                 break;
              default: quit()
         }
@@ -169,6 +183,101 @@ function addRole() {
                 console.log(`Added ${role.title} into the database!`)
             }).then(() => loadMainPrompts())
         })
+    })
+}
+
+function generateEmployee() {
+    prompt([
+        {
+            name: 'first_name',
+            message: "What is the employee's first name?"
+        },
+        {
+            name: 'last_name',
+            message: "What is the employee's last name?"
+        }
+    ]).then(res => {
+        let firstName = res.first_name;
+        let lastName = res.last_name;
+        db.findAllRoles()
+        .then(([rows]) => {
+            let roles = rows;
+            const roleChoices = roles.map(({
+                id,
+                title,
+            }) => ({
+                name: title,
+                value: id,
+            }));
+            prompt([
+                {
+                    type: 'list',
+                    name: 'roleID',
+                    message: 'What role do you want for this employee?',
+                    choices: roleChoices
+                }
+            ]).then(res => {
+                let roleID = res.roleID;
+                db.findAllEmployees()
+                .then(([rows]) => {
+                    let employees = rows;
+                    const managerChoices = employees.map(({
+                        id,
+                        first_name,
+                        last_name
+                    }) => ({
+                        name: `${first_name} ${last_name}`,
+                        value: id
+                    }))
+                    managerChoices.unshift({name: 'none', value: null})
+                    prompt([
+                        {
+                            type: 'list',
+                            name: 'managerID',
+                            message: "Who is the employee's manager?",
+                            choices: managerChoices
+                        }
+                    ]).then(res => {
+                        let employee = {
+                            manager_id: res.managerID,
+                            role_id: roleID,
+                            first_name: firstName,
+                            last_name: lastName
+                        }
+                        db.createEmployee(employee)
+                    }).then(() => {
+                        console.log(`Added ${firstName} ${lastName}`)
+                    }).then(() => loadMainPrompts())
+                })
+            })
+        })
+    })
+}
+
+function deleteEmployee() {
+    db.findAllEmployees()
+    .then(([rows]) => {
+        let employees = rows;
+        const employeeChoices = employees.map(({
+            id, 
+            first_name,
+            last_name,
+        }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }))
+        prompt([
+            {
+                type:'list',
+                name: 'employeeID',
+                message: 'What employee do you want to delete?',
+                choices: employeeChoices
+            }
+        ]).then(res => {
+            db.removeEmployee(res.employeeID)
+        }).then(() => {
+            console.log(`Deleted from the database!`)
+        }).then(() => loadMainPrompts())
     })
 }
 
