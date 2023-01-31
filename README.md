@@ -49,4 +49,4 @@ This application will not be deployed and requires a video guide so I will not b
 
 Here is a link to my GitHub [repo!](https://github.com/roldanmoncada/employee-tracker-mysql/tree/main)
 
-Here is the walkthrough [video!](PLACEHOLDER TEXT FOR WHEN I RECORD)
+Here is the walkthrough [video!]([PLACEHOLDER TEXT FOR WHEN I RECORD](https://drive.google.com/file/d/1a0JT71eMe14FvAtkUhZLF9N--RQWOl0L/view))
