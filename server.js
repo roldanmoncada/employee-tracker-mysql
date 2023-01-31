@@ -15,31 +15,30 @@ function init() {
 };
 
 function loadMainPrompts() { 
-    console.log('hey')
     prompt([
         {
         type: 'list',
         name: 'choice',
-        message: 'Pick your thing',
+        message: 'Select your option:',
         choices: [
             {
-                name: 'viewAllEmployees',
+                name: 'View All Employees',
                 value: 'VIEW_EMPLOYEES'
             },
             {
-                name: 'viewAllEmployeesByDepartment',
+                name: 'View All Employees By Department',
                 value: 'VIEW_ALL_EMPLOYEES_BY_DEPARTMENT'
             },
             {
-                name: 'viewAllEmployeesByManager',
+                name: 'View All Employees By Manager',
                 value: 'VIEW_ALL_EMPLOYEES_BY_MANAGER'
             },
             {
-                name: 'viewBudgets',
+                name: 'View Budgets',
                 value: 'VIEW_BUDGETS'
             },
             {
-                name: 'viewRoles',
+                name: 'View Roles',
                 value: 'VIEW_ROLES'
             },
             {
@@ -55,14 +54,14 @@ function loadMainPrompts() {
                 value: 'DELETE_EMPLOYEE'
             },
             {
-                name: 'quit',
+                name: 'Quit',
                 value: 'QUIT'
             }
         ]
    
         }
         
-    ]).then((res) => { console.log('Hi')
+    ]).then((res) => {
         let choice = res.choice
         switch (choice) {
             case 'VIEW_EMPLOYEES':
@@ -94,7 +93,7 @@ function loadMainPrompts() {
     })
 };
 
-function viewEmployees() { console.log('Hi')
+function viewEmployees() {
     db.findAllEmployees()
     .then(([rows]) => {
         let employee_db = rows;
